@@ -26,7 +26,7 @@ extern NiFpga_Session myrio_session;
 NiFpga_Status status;
 
 int main(int argc, char **argv) {
-
+	int speed = 200;
 	VideoCapture cam(0); // open the default camera
 	if (!cam.isOpened())  // check if we succeeded
 		return -1;
@@ -76,14 +76,14 @@ int main(int argc, char **argv) {
 				for(int i=0; i<4; i++){
 					//move forward
 					leftCount += 360;
-					rigthCount -= 360;
-					mc.setMotorDegrees(DC, speed, leftCount, speed, 					rigthCount);
+					rightCount -= 360;
+					mc.setMotorDegrees(DC, speed, leftCount, speed, 					rightCount);
 					//wait for 3 seconds
 					Utils::waitFor(3);
 
 					//turn 90 degrees
-					rigthCount -= 465;
-					mc.setMotorDegrees(DC, 0, leftCount, speed, rigthCount);
+					rightCount -= 465;
+					mc.setMotorDegrees(DC, 0, leftCount, speed, rightCount);
 					Utils::waitFor(3);
 				}
 			}
