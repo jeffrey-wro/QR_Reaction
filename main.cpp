@@ -46,18 +46,23 @@ int main(int argc, char **argv) {
 	printf("%d\n\n", volt);
 
 	string data;
-    Mat display, frame, pts;
-	
+
 	for(;;)
 	{
+    	Mat display, frame;
+	
 		cam >> frame; //get new frame
 		cvtColor(frame, display, COLOR_BGR2GRAY);
 		
+		Mat pts;
 		QRCodeDetector qrDecoder = QRCodeDetector();
 		if(qrDecoder.detect(display, pts))
 		{
 			//set data to decoded qr code
 			data = qrDecoder.detectAndDecode(display, pts);
+
+			printf(data.c_str());
+			fflush(stdout);
 			
 			if(data == "Forwards") //forwards
 			{
@@ -67,6 +72,7 @@ int main(int argc, char **argv) {
 				Utils::waitFor(3);
 				//set speed 0
 				mc.setMotorSpeeds(DC, 0, 0);
+
 			}
 			if(data == "Square") //move in a square
 			{
@@ -95,6 +101,7 @@ int main(int argc, char **argv) {
 				Utils::waitFor(3);
 				//set speed 0
 				mc.setMotorSpeeds(DC, 0, 0);
+				
 			}
 			
 			//delay and reset
@@ -103,7 +110,6 @@ int main(int argc, char **argv) {
 
 	}
 	Utils::waitFor(2);
-
 	mc.controllerReset(DC);
 
 	status = MyRio_Close();
